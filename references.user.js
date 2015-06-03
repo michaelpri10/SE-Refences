@@ -17,16 +17,15 @@
 // @include *://mathoverflow.net/*
 // ==/UserScript==
 
-function with_jquery(f) {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.textContent = "(" + f.toString() + ")(jQuery)";
-    document.body.appendChild(script);
-}
+var scriptEl = document.createElement("script");
+scriptEl.type = "text/javascript";
+scriptEl.textContent = "(" + se_references.toString() + ")(jQuery)";
+document.body.appendChild(scriptEl);
 
-with_jquery(function($) {
 
-    answer_button = $("#show-editor-button>input");
+function se_references($) {
+
+    var answer_button = $("#show-editor-button>input");
 
     if (answer_button.length) {
         answer_button.on("click", function() {
@@ -40,13 +39,13 @@ with_jquery(function($) {
 
     function reference() {
 
-        spacer2 = $("#wmd-spacer2");
+        var spacer2 = $("#wmd-spacer2");
         $("<li class='wmd-button' id='wmd-reference-button' title='References'><span></span></li>").insertBefore(spacer2);
-        index_spacer2 = spacer2.index();
-        pos_left = (index_spacer2 - 1) * 25;
-        reference_button = $("#wmd-reference-button");
+        var index_spacer2 = spacer2.index();
+        var pos_left = (index_spacer2 - 1) * 25;
+        var reference_button = $("#wmd-reference-button");
         reference_button.css({"left":String(pos_left) + "px"});
-        reference_span = $("#wmd-reference-button>span");
+        var reference_span = $("#wmd-reference-button>span");
         reference_span.css({"background-image":"url(http://i.imgur.com/QWgycXJ.png)", "margin-top":"2px", "margin-left":"2px"});
         reference_span.on("mouseover", function() {
             reference_span.css({"background-image":"url(http://i.imgur.com/so4eC8R.png)"});
@@ -93,15 +92,11 @@ with_jquery(function($) {
             txtarea.scrollTop = scrollPos;
         }
 
-        reference_number = 1
+        var reference_number = 1
 
         reference_button.on("click", function() {
-            var caretPos = document.getElementById("wmd-input").selectionStart;
-            var textAreaTxt = $("#wmd-input").val();
-            var txtToAdd = "<sup>["+String(reference_number)+"]</sup>";
-            $("#txt").val(textAreaTxt.substring(0, caretPos) + txtToAdd + textAreaTxt.substring(caretPos) );
-            reference_link = prompt("Reference Link: ");
-            reference_name = prompt("Reference Name: ");
+            var reference_link = prompt("Reference Link: ");
+            var reference_name = prompt("Reference Name: ");
             insertAtCaret("wmd-input", "<sup>["+String(reference_number)+"]</sup>\n\n")
             $('#wmd-input').val($('#wmd-input').val()+"<sup>["+reference_number+": "+reference_name+"]["+reference_number+"]</sup>\n\n");
             $("#wmd-input").val($('#wmd-input').val()+"  ["+reference_number+"]: "+reference_link+"\n\n");
@@ -109,4 +104,4 @@ with_jquery(function($) {
         });
 
     }
-});
+}
