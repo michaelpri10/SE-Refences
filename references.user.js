@@ -22,21 +22,14 @@ scriptEl.type = "text/javascript";
 scriptEl.textContent = "(" + se_references.toString() + ")(jQuery)";
 document.body.appendChild(scriptEl);
 
-
 function se_references($) {
 
-    var answer_button = $("#show-editor-button>input");
-
-    if (answer_button.length) {
-        answer_button.on("click", function() {
-            reference();
-        });
+    if ($("#show-editor-button>input").length) {
+        ("#show-editor-button>input").on("click", reference)
     }
-
     else {
         reference();
     }
-
     function reference() {
 
         var spacer2 = $("#wmd-spacer2");
@@ -91,9 +84,7 @@ function se_references($) {
             }
             txtarea.scrollTop = scrollPos;
         }
-
-        var reference_number = 1
-
+        var reference_number = 1;
         reference_button.on("click", function() {
             var reference_link = prompt("Reference Link: ");
             var reference_name = prompt("Reference Name: ");
