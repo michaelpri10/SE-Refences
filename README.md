@@ -1,7 +1,8 @@
 #Stack Exchange References
 
-##What is it?
+--------------
 
+##What is it?
 Stack Exchange References is a userscript for easily putting in references in answers.
 
 --------------
@@ -9,6 +10,8 @@ Stack Exchange References is a userscript for easily putting in references in an
 ##Description
 
 - In the top bar of any answer on SE, a new image is added, which looks like `[1]`
+
+![Example Image][4]
 
 - When this is clicked on, you will get a reference put into your answer
 
@@ -24,7 +27,7 @@ Stack Exchange References is a userscript for easily putting in references in an
 
 ##Source Code/Download
 
-You can view that source code on [Github][1], feel free to contribute. You can download the userscript [here][3].
+You can view that source code on [Github][2], feel free to contribute. You can download the userscript [here][3].
 
 
 
@@ -32,3 +35,4 @@ You can view that source code on [Github][1], feel free to contribute. You can d
   [1]: http://www.example.com/
   [2]: https://github.com/michaelpri10/SE-References
   [3]: https://github.com/michaelpri10/SE-References/raw/master/references.user.js
+  [4]: https://raw.githubusercontent.com/michaelpri10/SE-References/master/references_example.png
