@@ -30,7 +30,7 @@ with_jquery(function ($) {
         answer_button.on("click", reference);
     }
     else {
-        setTimeout(reference, 1250);
+        setTimeout(reference, 350);
     }
     function reference() {
 
