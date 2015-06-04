@@ -24,11 +24,12 @@ document.body.appendChild(scriptEl);
 
 function se_references($) {
 
-    if ($("#show-editor-button>input").length) {
-        ("#show-editor-button>input").on("click", reference)
+    var answer_button = $("#show-editor-button>input");
+    if (answer_button.length) {
+        answer_button.on("click", reference);
     }
     else {
-        reference();
+        setTimeout(reference, 1000);
     }
     function reference() {
 
