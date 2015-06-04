@@ -35,7 +35,7 @@ with_jquery(function ($) {
     function reference() {
 
         var spacer2 = $("#wmd-spacer2");
-        $("<li class='wmd-button' id='wmd-reference-button' title='References'><span></span></li>").insertBefore(spacer2);
+        $("<li class='wmd-button' id='wmd-reference-button' title='References Ctrl+Y'><span></span></li>").insertBefore(spacer2);
         var index_spacer2 = spacer2.index();
         var pos_left = (index_spacer2 - 1) * 25;
         var reference_button = $("#wmd-reference-button");
@@ -103,14 +103,20 @@ with_jquery(function ($) {
             txtarea.scrollTop = scrollPos;
         }
         var reference_number = 1;
-        reference_button.on("click", function() {
+        function add_reference() {
             var reference_link = prompt("Reference Link: ");
             var reference_name = prompt("Reference Name: ");
             insertAtCaret("wmd-input", "<sup>["+String(reference_number)+"]</sup>\n\n")
             $('#wmd-input').val($('#wmd-input').val()+"<sup>["+reference_number+": "+reference_name+"]["+reference_number+"]</sup>\n\n");
             $("#wmd-input").val($('#wmd-input').val()+"  ["+reference_number+"]: "+reference_link+"\n\n");
             reference_number++;
-        });
+        }
+        reference_button.on("click", add_reference);
 
+        $('#wmd-input').keydown(function(e){
+            if (e.keyCode == 89 && e.ctrlKey) {
+                add_reference();
+            }
+        });
     }
 });
