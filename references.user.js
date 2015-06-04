@@ -17,19 +17,21 @@
 // @include *://mathoverflow.net/*
 // ==/UserScript==
 
-var scriptEl = document.createElement("script");
-scriptEl.type = "text/javascript";
-scriptEl.textContent = "(" + se_references.toString() + ")(jQuery)";
-document.body.appendChild(scriptEl);
+function with_jquery(f) {
+    var scriptEl = document.createElement("script");
+    scriptEl.type = "text/javascript";
+    scriptEl.textContent = "(" + f.toString() + ")(jQuery)";
+    document.body.appendChild(scriptEl);
+};
 
-function se_references($) {
+with_jquery(function($) {
 
     var answer_button = $("#show-editor-button>input");
     if (answer_button.length) {
         answer_button.on("click", reference);
     }
     else {
-        setTimeout(reference, 1000);
+        setTimeout(reference, 500);
     }
     function reference() {
 
@@ -38,19 +40,35 @@ function se_references($) {
         var index_spacer2 = spacer2.index();
         var pos_left = (index_spacer2 - 1) * 25;
         var reference_button = $("#wmd-reference-button");
-        reference_button.css({"left":String(pos_left) + "px"});
+        reference_button.css({
+            "left":String(pos_left) + "px"
+        });
         var reference_span = $("#wmd-reference-button>span");
-        reference_span.css({"background-image":"url(http://i.imgur.com/QWgycXJ.png)", "margin-top":"2px", "margin-left":"2px"});
+        reference_span.css({
+            "background-image":"url(http://i.imgur.com/QWgycXJ.png)", "margin-top":"2px", "margin-left":"2px"
+        });
         reference_span.on("mouseover", function() {
-            reference_span.css({"background-image":"url(http://i.imgur.com/so4eC8R.png)"});
+            reference_span.css({
+                "background-image":"url(http://i.imgur.com/so4eC8R.png)"
+            });
         });
         reference_span.on("mouseout", function() {
-            reference_span.css({"background-image":"url(http://i.imgur.com/QWgycXJ.png)"});
+            reference_span.css({
+                "background-image":"url(http://i.imgur.com/QWgycXJ.png)"
+            });
         });
-        $("#wmd-olist-button").css({'left':String(pos_left+35)+"px"});
-        $("#wmd-ulist-button").css({'left':String(pos_left+60)+"px"});
-        $("#wmd-heading-button").css({'left':String(pos_left+85)+"px"});
-        $("#wmd-hr-button").css({'left':String(pos_left+110)+"px"});
+        $("#wmd-olist-button").css({
+            'left':String(pos_left+35)+"px"
+        });
+        $("#wmd-ulist-button").css({
+            'left':String(pos_left+60)+"px"
+        });
+        $("#wmd-heading-button").css({
+            'left':String(pos_left+85)+"px"
+        });
+        $("#wmd-hr-button").css({
+            'left':String(pos_left+110)+"px"
+        });
 
         function insertAtCaret(areaId,text) {
             var txtarea = document.getElementById(areaId);
@@ -96,4 +114,4 @@ function se_references($) {
         });
 
     }
-}
+});
