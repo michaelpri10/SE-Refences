@@ -26,8 +26,7 @@ function insert_script(f) {
 
 insert_script(function () {
     if (document.getElementById('show-editor-button')){
-        var answer_button = document.getElementById('show-editor-button').getElementsByTagName('input');
-        answer_button.addEventListener('click', reference);
+        document.getElementById('show-editor-button').addEventListener('click', reference);
     }
     else {
         setTimeout(reference, 350);
