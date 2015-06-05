@@ -93,15 +93,83 @@ insertScript(function () {
             }
             txtarea.scrollTop = scrollPos;
         }
-        var referenceNumber = 1;
+        referencePopup();
+        referenceNumber = 1;
         var inputBox = document.querySelector('#wmd-input');
         function addReference() {
-            var referenceLink = prompt("Reference Link: ");
-            var referenceName = prompt("Reference Name: ");
-            insertAtCaret('wmd-input', '<sup>[' + referenceNumber.toString() + ']</sup>\n\n')
-            inputBox.value += '<sup>[' + referenceNumber.toString() + ': ' + referenceName + '][' + referenceNumber.toString() + ']</sup>\n\n';
-            inputBox.value += '  [' + referenceNumber.toString() + ']: ' + referenceLink + '\n\n';
-            referenceNumber++;
+            var referenceModal = document.querySelector('#input-modal');
+            var submitReference = document.querySelector('#submit-info');
+            var cancelReference = document.querySelector('#cancel-info');
+            referenceModal.style.display = 'block';
+            cancelReference.addEventListener('click', function() {
+                referenceModal.style.display = 'none';
+                referenceLink.value = '';
+                referenceName.value = '';
+                return;
+            });
+            submitReference.addEventListener('click', function() {
+                var referenceLink = document.querySelector('#reference-link')
+                var referenceName = document.querySelector('#reference-name')
+                insertAtCaret('wmd-input', '<sup>[' + referenceNumber.toString() + ']</sup>\n\n')
+                inputBox.value += '<sup>[' + referenceNumber.toString() + ': ' + referenceName.value + '][' + referenceNumber.toString() + ']</sup>\n\n';
+                inputBox.value += '  [' + referenceNumber.toString() + ']: ' + referenceLink.value + '\n\n';
+                referenceModal.style.display = 'none';
+                referenceLink.value = '';
+                referenceName.value = '';
+                referenceNumber += 1;
+                return;
+            });
+        }
+        function referencePopup() {
+            var inputModal = document.createElement('div');
+            inputModal.id = 'input-modal';
+            inputModal.style.height = '150px';
+            inputModal.style.width = '400px';
+            inputModal.style.backgroundColor = 'blue';
+            inputModal.style.textAlign = 'center';
+            inputModal.style.paddingTop = '10px';
+            inputModal.style.position = 'fixed';
+            inputModal.style.top = '30%';
+            inputModal.style.left = '25%';
+            inputModal.style.borderRadius = '5%';
+            inputModal.style.border = '3px solid black';
+            inputModal.style.display = 'none';
+
+            var referenceLink = document.createElement('input');
+            referenceLink.type = 'text';
+            referenceLink.name = 'referenceLink';
+            referenceLink.placeholder = 'Reference Link: ';
+            referenceLink.id = 'reference-link';
+            referenceLink.style.width = '300px';
+
+            var referenceName = document.createElement('input');
+            referenceName.type = 'text';
+            referenceName.name = 'referenceName';
+            referenceName.placeholder = 'Reference Name: ';
+            referenceName.id = 'reference-name';
+            referenceName.style.width = '300px';
+
+            var submitInfo = document.createElement('input');
+            submitInfo.type = 'button';
+            submitInfo.value = 'Submit';
+            submitInfo.className = 'reference-info-button';
+            submitInfo.id = 'submit-info';
+            submitInfo.style.marginRight = '80px';
+
+            var cancelInfo = document.createElement('input');
+            cancelInfo.type = 'button';
+            cancelInfo.value = 'Cancel';
+            cancelInfo.className = 'reference-info-button';
+            cancelInfo.id = 'cancel-info';
+
+            inputModal.appendChild(referenceLink);
+            inputModal.appendChild(document.createElement('br'));
+            inputModal.appendChild(referenceName);
+            inputModal.appendChild(document.createElement('br'));
+            inputModal.appendChild(submitInfo);
+            inputModal.appendChild(cancelInfo);
+
+            document.body.appendChild(inputModal);
         }
         referenceButton.addEventListener('click', addReference);
 
