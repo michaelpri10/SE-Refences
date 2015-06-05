@@ -17,48 +17,48 @@
 // @include *://mathoverflow.net/*
 // ==/UserScript==
 
-function insert_script(f) {
+function insertScript(f) {
     var scriptEl = document.createElement('script');
     scriptEl.type = 'text/javascript';
     scriptEl.textContent = '(' + f.toString() + ')()';
     document.body.appendChild(scriptEl);
 };
 
-insert_script(function () {
-    if (document.getElementById('show-editor-button')){
-        document.getElementById('show-editor-button').addEventListener('click', reference);
+insertScript(function () {
+    if (document.querySelector('#show-editor-button')){
+        document.querySelector('#show-editor-button').addEventListener('click', reference);
     }
     else {
         setTimeout(reference, 350);
     }
     function reference() {
 
-        var spacer2 = document.getElementById('wmd-spacer2');
+        var spacer2 = document.querySelector('#wmd-spacer2');
         spacer2.insertAdjacentHTML('beforebegin', '<li class="wmd-button" id="wmd-reference-button" title="References Ctrl+Y"><span></span></li>');
-        var button_row = document.getElementById('wmd-button-bar').getElementsByTagName('li');
-        var index_spacer2;
-        for (i=0; i<button_row.length; i++) {
-            if (button_row.item(i) == spacer2) {
-                index_spacer2 = i;
+        var buttonRow = document.querySelector('#wmd-button-bar').getElementsByTagName('li');
+        var indexSpacer2;
+        for (i=0; i<buttonRow.length; i++) {
+            if (buttonRow.item(i) == spacer2) {
+                indexSpacer2 = i;
             }
         }
-        var pos_left = (index_spacer2 - 1) * 25;
-        var reference_button = document.getElementById('wmd-reference-button');
-        reference_button.style.left = pos_left.toString() + 'px';
-        var reference_span = reference_button.firstChild;
-        reference_span.style.backgroundImage = 'url(http://i.imgur.com/QWgycXJ.png)';
-        reference_span.style.marginTop = '2px';
-        reference_span.style.marginLeft = '2px';
-        reference_span.addEventListener('mouseover', function() {
-            reference_span.style.backgroundImage = 'url(http://i.imgur.com/so4eC8R.png)';
+        var posLeft = (indexSpacer2 - 1) * 25;
+        var referenceButton = document.querySelector('#wmd-reference-button');
+        referenceButton.style.left = posLeft.toString() + 'px';
+        var referenceSpan = document.querySelector('#wmd-reference-button>span');
+        referenceSpan.style.backgroundImage = 'url(http://i.imgur.com/QWgycXJ.png)';
+        referenceSpan.style.marginTop = '2px';
+        referenceSpan.style.marginLeft = '2px';
+        referenceSpan.addEventListener('mouseover', function() {
+            referenceSpan.style.backgroundImage = 'url(http://i.imgur.com/so4eC8R.png)';
         });
-        reference_span.addEventListener('mouseout', function() {
-            reference_span.style.backgroundImage = 'url(http://i.imgur.com/QWgycXJ.png)';
+        referenceSpan.addEventListener('mouseout', function() {
+            referenceSpan.style.backgroundImage = 'url(http://i.imgur.com/QWgycXJ.png)';
         });
-        document.getElementById('wmd-olist-button').style.left = String(pos_left+35)+'px';
-        document.getElementById('wmd-ulist-button').style.left = String(pos_left+60)+'px';
-        document.getElementById('wmd-heading-button').style.left = String(pos_left+85)+'px';
-        document.getElementById('wmd-hr-button').style.left = String(pos_left+110)+'px';
+        document.querySelector('#wmd-olist-button').style.left = String(posLeft+35)+'px';
+        document.querySelector('#wmd-ulist-button').style.left = String(posLeft+60)+'px';
+        document.querySelector('#wmd-heading-button').style.left = String(posLeft+85)+'px';
+        document.querySelector('#wmd-hr-button').style.left = String(posLeft+110)+'px';
 
         function insertAtCaret(areaId,text) {
             var txtarea = document.getElementById(areaId);
@@ -93,21 +93,21 @@ insert_script(function () {
             }
             txtarea.scrollTop = scrollPos;
         }
-        var reference_number = 1;
-        var input_box = document.getElementById('wmd-input');
-        function add_reference() {
-            var reference_link = prompt("Reference Link: ");
-            var reference_name = prompt("Reference Name: ");
-            insertAtCaret('wmd-input', '<sup>[' + reference_number.toString() + ']</sup>\n\n')
-            input_box.value += '<sup>[' + reference_number.toString() + ': ' + reference_name + '][' + reference_number.toString() + ']</sup>\n\n';
-            input_box.value += '  [' + reference_number.toString() + ']: ' + reference_link + '\n\n';
-            reference_number++;
+        var referenceNumber = 1;
+        var inputBox = document.querySelector('#wmd-input');
+        function addReference() {
+            var referenceLink = prompt("Reference Link: ");
+            var referenceName = prompt("Reference Name: ");
+            insertAtCaret('wmd-input', '<sup>[' + referenceNumber.toString() + ']</sup>\n\n')
+            inputBox.value += '<sup>[' + referenceNumber.toString() + ': ' + referenceName + '][' + referenceNumber.toString() + ']</sup>\n\n';
+            inputBox.value += '  [' + referenceNumber.toString() + ']: ' + referenceLink + '\n\n';
+            referenceNumber++;
         }
-        reference_button.addEventListener('click', add_reference);
+        referenceButton.addEventListener('click', addReference);
 
-        input_box.addEventListener('keydown', function(e){
+        inputBox.addEventListener('keydown', function(e){
             if (e.keyCode == 89 && e.ctrlKey) {
-                add_reference();
+                addReference();
             }
         });
     }
