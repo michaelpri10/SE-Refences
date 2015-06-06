@@ -37,7 +37,7 @@ insertScript(function () {
         spacer2.insertAdjacentHTML('beforebegin', '<li class="wmd-button" id="wmd-reference-button" title="References Ctrl+Y"><span></span></li>');
         var buttonRow = document.querySelector('#wmd-button-bar').getElementsByTagName('li');
         var indexSpacer2;
-        for (i=0; i<buttonRow.length; i++) {
+        for (var i=0; i<buttonRow.length; i++) {
             if (buttonRow.item(i) == spacer2) {
                 indexSpacer2 = i;
             }
@@ -93,32 +93,37 @@ insertScript(function () {
             }
             txtarea.scrollTop = scrollPos;
         }
-        referencePopup();
-        referenceNumber = 1;
+        var referenceNumber = 1;
         var inputBox = document.querySelector('#wmd-input');
         function addReference() {
+            referencePopup();
             var referenceModal = document.querySelector('#input-modal');
+            var referenceLink = document.querySelector('#reference-link')
+            var referenceName = document.querySelector('#reference-name')
             var submitReference = document.querySelector('#submit-info');
             var cancelReference = document.querySelector('#cancel-info');
             referenceModal.style.display = 'block';
             cancelReference.addEventListener('click', function() {
-                referenceModal.style.display = 'none';
-                referenceLink.value = '';
-                referenceName.value = '';
-                return;
+                document.body.removeChild(referenceModal);
             });
-            submitReference.addEventListener('click', function() {
-                var referenceLink = document.querySelector('#reference-link')
-                var referenceName = document.querySelector('#reference-name')
-                insertAtCaret('wmd-input', '<sup>[' + referenceNumber.toString() + ']</sup>\n\n')
+            submitReference.addEventListener('click', insertReference);
+            referenceLink.addEventListener('keydown', function(e) {
+                if (e.keyCode == 13) {
+                    insertReference();
+                }
+            });
+            referenceName.addEventListener('keydown', function(e) {
+                if (e.keyCode == 13) {
+                    insertReference();
+                }
+            });
+            function insertReference() {
+                insertAtCaret('wmd-input', '<sup>[' + referenceNumber.toString() + ']</sup>\n\n');
                 inputBox.value += '<sup>[' + referenceNumber.toString() + ': ' + referenceName.value + '][' + referenceNumber.toString() + ']</sup>\n\n';
                 inputBox.value += '  [' + referenceNumber.toString() + ']: ' + referenceLink.value + '\n\n';
-                referenceModal.style.display = 'none';
-                referenceLink.value = '';
-                referenceName.value = '';
                 referenceNumber += 1;
-                return;
-            });
+                document.body.removeChild(referenceModal);
+            }
         }
         function referencePopup() {
             var inputModal = document.createElement('div');
