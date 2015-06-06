@@ -118,7 +118,10 @@ insertScript(function () {
                 }
             });
             function insertReference() {
-                insertAtCaret('wmd-input', '<sup>[' + referenceNumber.toString() + ']</sup>\n\n');
+                insertAtCaret('wmd-input', '<sup>[' + referenceNumber.toString() + ']</sup>');
+                if (referenceNumber == 1) {
+                    inputBox.value += '\n\n<hr>\n\n';
+                }
                 inputBox.value += '<sup>[' + referenceNumber.toString() + ': ' + referenceName.value + '][' + referenceNumber.toString() + ']</sup>\n\n';
                 inputBox.value += '  [' + referenceNumber.toString() + ']: ' + referenceLink.value + '\n\n';
                 referenceNumber += 1;
