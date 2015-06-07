@@ -95,16 +95,45 @@ insertScript(function () {
         }
         var referenceNumber = 1;
         var inputBox = document.querySelector('#wmd-input');
+        referencePopup();
         function addReference() {
-            referencePopup();
             var referenceModal = document.querySelector('#input-modal');
             var referenceLink = document.querySelector('#reference-link')
             var referenceName = document.querySelector('#reference-name')
             var submitReference = document.querySelector('#submit-info');
             var cancelReference = document.querySelector('#cancel-info');
-            referenceModal.style.display = 'block';
+            var referenceNumberInput = document.querySelector('#reference-number-input');
+
+            referenceNumberInput.value = referenceNumber.toString();
+
+            function fadeIn(element) {
+                var op = 0.1;  // initial opacity
+                element.style.display = 'block';
+                var timer = setInterval(function () {
+                    if (op >= 1){
+                        clearInterval(timer);
+                    }
+                    element.style.opacity = op;
+                    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                    op += op * 0.1;
+                }, 20);
+            }
+            function fadeOut(element) {
+                var op = 1;  // initial opacity
+                var timer = setInterval(function () {
+                    if (op <= 0.1){
+                        clearInterval(timer);
+                        element.style.display = 'none';
+                    }
+                    element.style.opacity = op;
+                    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                    op -= op * 0.1;
+                }, 35);
+            }
+            fadeIn(referenceModal);
+
             cancelReference.addEventListener('click', function() {
-                document.body.removeChild(referenceModal);
+                fadeOut(referenceModal);
             });
             submitReference.addEventListener('click', insertReference);
             referenceLink.addEventListener('keydown', function(e) {
@@ -118,30 +147,34 @@ insertScript(function () {
                 }
             });
             function insertReference() {
-                insertAtCaret('wmd-input', '<sup>[' + referenceNumber.toString() + ']</sup>');
+                fadeOut(referenceModal);
+                referenceNumber = parseInt(referenceNumberInput.value);
+                insertAtCaret('wmd-input', '<sup>[' + referenceNumber.toString() + ']</sup>')
                 if (referenceNumber == 1) {
                     inputBox.value += '\n\n<hr>\n\n';
                 }
                 inputBox.value += '<sup>[' + referenceNumber.toString() + ': ' + referenceName.value + '][' + referenceNumber.toString() + ']</sup>\n\n';
                 inputBox.value += '  [' + referenceNumber.toString() + ']: ' + referenceLink.value + '\n\n';
                 referenceNumber += 1;
-                document.body.removeChild(referenceModal);
             }
         }
         function referencePopup() {
             var inputModal = document.createElement('div');
             inputModal.id = 'input-modal';
-            inputModal.style.height = '150px';
+            inputModal.style.height = '200px';
             inputModal.style.width = '400px';
-            inputModal.style.backgroundColor = 'blue';
+            inputModal.style.backgroundColor = 'rgb(81, 81, 81)';
             inputModal.style.textAlign = 'center';
             inputModal.style.paddingTop = '10px';
             inputModal.style.position = 'fixed';
             inputModal.style.top = '30%';
             inputModal.style.left = '25%';
-            inputModal.style.borderRadius = '5%';
-            inputModal.style.border = '3px solid black';
+            inputModal.style.borderRadius = '3%';
+            inputModal.style.border = '2px solid black';
+            inputModal.style.color = 'white';
+            inputModal.style.boxShadow = '6px 6px 5px #888888';
             inputModal.style.display = 'none';
+            inputModal.style.opacity = '0.1';
 
             var referenceLink = document.createElement('input');
             referenceLink.type = 'text';
@@ -156,6 +189,17 @@ insertScript(function () {
             referenceName.placeholder = 'Reference Name: ';
             referenceName.id = 'reference-name';
             referenceName.style.width = '300px';
+
+            var referenceNumberInputHeading = document.createElement('h3');
+            referenceNumberInputHeading.innerHTML = 'Reference Number:';
+
+            var referenceNumberInput = document.createElement('input');
+            referenceNumberInput.type = 'text';
+            referenceNumberInput.name = 'referenceNumberInput';
+            referenceNumberInput.id = 'reference-number-input';
+            referenceNumberInput.style.width = '25px';
+            referenceNumberInput.style.marginTop = '-10px';
+            referenceNumberInput.style.textAlign = 'center';
 
             var submitInfo = document.createElement('input');
             submitInfo.type = 'button';
@@ -173,6 +217,9 @@ insertScript(function () {
             inputModal.appendChild(referenceLink);
             inputModal.appendChild(document.createElement('br'));
             inputModal.appendChild(referenceName);
+            inputModal.appendChild(document.createElement('br'));
+            inputModal.appendChild(referenceNumberInputHeading);
+            inputModal.appendChild(referenceNumberInput);
             inputModal.appendChild(document.createElement('br'));
             inputModal.appendChild(submitInfo);
             inputModal.appendChild(cancelInfo);
