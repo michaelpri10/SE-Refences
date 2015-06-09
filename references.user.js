@@ -29,7 +29,7 @@ insertScript(function () {
         document.querySelector('#show-editor-button').addEventListener('click', reference);
     }
     else {
-        setTimeout(reference, 350);
+        setTimeout(reference, 1000);
     }
     function reference() {
 
