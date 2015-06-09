@@ -95,8 +95,8 @@ insertScript(function () {
         }
         var referenceNumber = 1;
         var inputBox = document.querySelector('#wmd-input');
-        referencePopup();
         function addReference() {
+            referencePopup();
             var referenceModal = document.querySelector('#input-modal');
             var referenceLink = document.querySelector('#reference-link')
             var referenceName = document.querySelector('#reference-name')
@@ -123,7 +123,8 @@ insertScript(function () {
                 var timer = setInterval(function () {
                     if (op <= 0.1){
                         clearInterval(timer);
-                        element.style.display = 'none';
+                        document.body.removeChild(element);
+                        // element.style.display = 'none';
                     }
                     element.style.opacity = op;
                     element.style.filter = 'alpha(opacity=' + op * 100 + ")";
@@ -147,7 +148,6 @@ insertScript(function () {
                 }
             });
             function insertReference() {
-                fadeOut(referenceModal);
                 referenceNumber = parseInt(referenceNumberInput.value);
                 insertAtCaret('wmd-input', '<sup>[' + referenceNumber.toString() + ']</sup>')
                 if (referenceNumber == 1) {
@@ -156,6 +156,7 @@ insertScript(function () {
                 inputBox.value += '<sup>[' + referenceNumber.toString() + ': ' + referenceName.value + '][' + referenceNumber.toString() + ']</sup>\n\n';
                 inputBox.value += '  [' + referenceNumber.toString() + ']: ' + referenceLink.value + '\n\n';
                 referenceNumber += 1;
+                fadeOut(referenceModal);
             }
         }
         function referencePopup() {
