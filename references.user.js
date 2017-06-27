@@ -116,7 +116,7 @@ insertScript(function () {
                     element.style.opacity = op;
                     element.style.filter = 'alpha(opacity=' + op * 100 + ")";
                     op += op * 0.1;
-                }, 20);
+                }, 5);
             }
             function fadeOut(element) {
                 var op = 1;  // initial opacity
@@ -129,7 +129,7 @@ insertScript(function () {
                     element.style.opacity = op;
                     element.style.filter = 'alpha(opacity=' + op * 100 + ")";
                     op -= op * 0.1;
-                }, 35);
+                }, 5);
             }
             fadeIn(referenceModal);
 
